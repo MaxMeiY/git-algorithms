@@ -1,3 +1,8 @@
+'''
+see page 106
+worth seeing
+'''
+
 def subset_sum(array, i, len_of_array, x):
     '''
     Input array: {3, 2, 7, 1}  x = 6
@@ -20,3 +25,29 @@ def subset_sum(array, i, len_of_array, x):
 
     return subset_sum(array, i+1, len_of_array-1, x) or \
         subset_sum(array, i+1, len_of_array-1, x - array[i])
+
+
+def DP_subset_sum(array, n, x):
+    '''
+    The value of memo[i][j] is true if there is a
+    memo of arr[0..j] with x equal to j
+    '''
+    memo = [[None for i in range(n + 1)] for _ in range(x+1)]
+
+    # if x is 0, then answer is true
+    for i in range(n):
+        memo[0][i] = True
+
+    # if x is not 0 and array is empty, answer is false
+    for i in range(1, x+1):
+        memo[i][0] = False
+
+    # fill the memo table in botton up answer
+    for i in range(1, x+1):
+        for j in range(1, n+1):
+            memo[i][j] = memo[i][j-1]
+            if i >= array[j-1]:
+                memo[i][j] = memo[i][j]  or \
+                             memo[i - array[j-1]][j-1]
+
+    return memo[x][n]
