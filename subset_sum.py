@@ -50,4 +50,21 @@ def DP_subset_sum(array, n, x):
                 memo[i][j] = memo[i][j]  or \
                              memo[i - array[j-1]][j-1]
 
-    return memo[x][n]
+    if memo[x][n]:
+        return print_subset(array, memo, x, n, x)
+
+    else:
+        return False
+
+def print_subset(array, memo, row, col, x):
+    result_list = []
+    while x != 0:
+        if memo[row][col-1] is False:
+            result_list.append(array[col-1])
+            x = x - array[col-1]
+            row = row - array[col-1]
+            col -= 1
+        else:
+            col -= 1
+    return result_list
+
